@@ -2,8 +2,8 @@ import requests
 from datetime import datetime
 from functools import reduce
 
-ADDRESS_BY_POSTCODE_URL = 'https://bbcpro-jeapi.azurewebsites.net/api/addresssearch/bypostcode?Postcode=mk43' \
-                          '%208ht&Language=ENG '
+ADDRESS_BY_POSTCODE_URL = 'https://bbcpro-jeapi.azurewebsites.net/api/addresssearch/bypostcode?Postcode=ab12' \
+                          '%23cd&Language=ENG '
 COLLECTION_BY_UPRN = 'https://bbaz-as-prod-bartecapi.azurewebsites.net/api/bincollections/residential/getbyuprn' \
                      '/10002965475 '
 
