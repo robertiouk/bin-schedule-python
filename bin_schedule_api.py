@@ -26,8 +26,8 @@ def __get_weekday_from_date_string(date_string):
 
 def __get_temporal_status(date_now, collection_date):
     """Return whether the collection date is in the past, present or future"""
-    now_day = date_now.day
-    collection_day = collection_date.day
+    now_day = date_now.timetuple().tm_yday
+    collection_day = collection_date.timetuple().tm_yday
     return 'Past' if now_day > collection_day else 'Future' if now_day < collection_day else 'Present'
 
 
