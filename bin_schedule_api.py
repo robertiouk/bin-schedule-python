@@ -27,8 +27,12 @@ def __get_weekday_from_date_string(date_string):
 def __get_temporal_status(date_now, collection_date):
     """Return whether the collection date is in the past, present or future"""
     now_day = date_now.timetuple().tm_yday
+    now_year = date_now.timetuple().tm_year
     collection_day = collection_date.timetuple().tm_yday
-    return 'Past' if now_day > collection_day else 'Future' if now_day < collection_day else 'Present'
+    collection_year = collection_date.timetuple().tm_year
+    return 'Past' if collection_year < now_year or (collection_year == now_year and now_day > collection_day) else \
+        'Future' if collection_year > now_year or (collection_year == now_year and now_day < collection_day) else \
+        'Present'
 
 
 def get_collection(week):
@@ -40,6 +44,9 @@ def get_collection(week):
     today = datetime.today()
     current_week = today.isocalendar()[1]
     given_week = current_week if week == 'this' else current_week + 1
+    # If the end of year then reset
+    if given_week >= 53:
+        given_week = 1
 
     # Will return a list of lists, e.g.,
     # [[], [], [('Green bin', '2020-04-28T00:00:00'), ('Orange bin', '2020-04-28T00:00:00')], []]
