@@ -39,7 +39,8 @@ def get_collection(week):
     """Use the council API to get the collection for a given date"""
 
     response = requests.get(COLLECTION_BY_UPRN)
-
+    #print(COLLECTION_BY_UPRN)
+    #print(response.json())
     json = response.json()['BinCollections']
     today = datetime.today()
     current_week = today.isocalendar()[1]
@@ -55,6 +56,7 @@ def get_collection(week):
          for entry in week_entry
          if __get_week_day_from_entry(entry) == given_week]
         for week_entry in json]
+    #print(result)
     # Filter out the empty lists
     filtered = list(filter(lambda collections: collections, result))
     # Flatten to: [('Green bin', '2020-04-28T00:00:00'), ('Orange bin', '2020-04-28T00:00:00')]
@@ -66,9 +68,13 @@ def get_collection(week):
                                  __get_weekday_from_date_string(e[1]),
                                  __get_temporal_status(today, __get_date_from_string(e[1]))),
                       flattened))
+    #print(mapped)
     # Reduce to a list of bins, with the first date that (we don't need the rest as they are duplicates)
     # mapped to a day string, e.g.,
     # (['Green bin', 'Orange bin'], 'Tuesday', 'Past')
-    reduced = reduce(lambda a, b: (reduce(list.__add__, [a[0], b[0]]), a[1], a[2]), mapped)
+    #reduced = reduce(lambda a, b: (reduce(list.__add__, [a[0], b[0]]), a[1], a[2]), mapped)
+    #print (reduced)
+    reduced2 = reduce(lambda a, b: (set(a[0]).union(set(b[0])), a[1], a[2]), mapped)
+    print (reduced2)
 
-    return reduced
+    return reduced2
